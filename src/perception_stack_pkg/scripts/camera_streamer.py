@@ -11,13 +11,13 @@ def camera_stream():
     pub = rospy.Publisher("/camera_stream", Image, queue_size=1000)
     bridge = CvBridge()
 
-    capture = cv2.VideoCapture("/home/fares/Downloads/Dash Cam Video_ Almost Hit In The Crosswalk.mp4")
+    capture = cv2.VideoCapture("/home/fares/Downloads/Dashcam Catches T-Bone Crash __ ViralHog.mp4")
 
     if not capture.isOpened():
         rospy.logerr("Capture failed to open")
 
     frame_number = 0
-    rate = rospy.Rate(1)  # Hz
+    rate = rospy.Rate(5)  # Hz
 
     while not rospy.is_shutdown():
         ret, frame = capture.read()
