@@ -1,0 +1,2 @@
+client_server:perception_stack_pkg:try1_pkg
+-DCATKIN_DEVEL_PREFIX=/home/fares/Desktop/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/fares/Desktop/catkin_ws/install -G Unix Makefiles

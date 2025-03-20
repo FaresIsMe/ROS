@@ -1,0 +1,8 @@
+prefix=/home/fares/Desktop/catkin_ws/install
+
+Name: try1_pkg
+Description: Description of try1_pkg
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
