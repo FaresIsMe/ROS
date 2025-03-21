@@ -8,17 +8,15 @@ import numpy as np
 import torch
 from torchvision import transforms
 from perception_stack_pkg.msg import BoundingBox, DetectionList
-
-# The probles are all from hereeeeeeeeeeeee
-#الدرجة راحت في السكريبت ده
 from torchvision.models.segmentation import DeepLabV3_ResNet50_Weights
+
 model = torch.hub.load('pytorch/vision:v0.10.0', 'deeplabv3_resnet50', weights=DeepLabV3_ResNet50_Weights.DEFAULT)
 model.eval()
 
 bridge = CvBridge()
 frame_id = 0
 
-# This was acually helpfull
+# Preprocessing pipeline
 preprocess = transforms.Compose([
     transforms.ToPILImage(),
     transforms.Resize((256, 256)),
@@ -26,15 +24,15 @@ preprocess = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
 ])
 
-# HORSE?????? why??? t
+# حصان يلا بقى
 CLASS_NAMES = [
     "background", "aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat",
     "chair", "cow", "dining table", "dog", "horse", "motorbike", "person", "potted plant",
     "sheep", "sofa", "train", "tv/monitor"
 ]
 
-
 def extract_detections(segmentation_map):
+    """Extract bounding boxes from segmentation map."""
     detections = []
     unique_classes = np.unique(segmentation_map)
 
@@ -57,9 +55,8 @@ def extract_detections(segmentation_map):
             detections.append(detection)
     return detections
 
-"""AI helped me like I was a damn toddler"""
-# Process incoming images and publish results
 def image_callback(msg):
+    """Process incoming images and publish results."""
     global frame_id
     try:
         frame_id += 1
@@ -78,18 +75,16 @@ def image_callback(msg):
         else:
             norm_map = np.zeros_like(output_resized, dtype=np.uint8)
 
+
         segmented_frame = cv2.applyColorMap(norm_map, cv2.COLORMAP_JET)
         blended_output = cv2.addWeighted(cv_image, 0.7, segmented_frame, 0.3, 0)
-
         blended_msg = bridge.cv2_to_imgmsg(blended_output, encoding="rgb8")
         blended_pub.publish(blended_msg)
 
         detections = extract_detections(output_resized)
-
-        # Funny enough, I know how to publish now هقهقهقهقهق
         det_list_msg = DetectionList()
         det_list_msg.header.stamp = rospy.Time.now()
-        det_list_msg.frame_id = frame_id
+        det_list_msg.frame_id = str(frame_id)  # Use string for consistency
         det_list_msg.detections = detections
         detections_pub.publish(det_list_msg)
 
@@ -103,16 +98,10 @@ def image_callback(msg):
     except Exception as e:
         rospy.logerr(f"Error processing frame {frame_id}: {e}")
 
-    rospy.spin()
-
-
-#looking good today I am هقهقهقهقهق
 if __name__ == "__main__":
-    global blended_pub, detections_pub
     rospy.init_node('segmentation_and_detection_node')
     blended_pub = rospy.Publisher("/blended_frame", Image, queue_size=10)
     detections_pub = rospy.Publisher("/detections", DetectionList, queue_size=10)
     rospy.Subscriber("/camera_stream", Image, image_callback)
-#for some reasom IDC anymore
-#nobody is helping meeeeeeeeeeeeeeeee
-#the call me the 1 for 5 team guy 
+    rospy.loginfo("Segmentation and Detection Node Initialized.")
+    rospy.spin()
