@@ -7,7 +7,7 @@ import cv2
 
 
 def camera_stream():
-    rospy.init_node('camera_streamer', anonymous=True)
+    rospy.init_node('camera_streamer_node', anonymous=True)
     pub = rospy.Publisher("/camera_stream", Image, queue_size=1000)
     bridge = CvBridge()
 

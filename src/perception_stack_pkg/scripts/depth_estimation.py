@@ -97,7 +97,7 @@ if __name__ == '__main__':
     try:
         topic_name = "/camera_stream"
 
-        rospy.init_node('depth_estimation')
+        rospy.init_node('depth_estimation_node')
 
         # Subscriber and publisher initialization
         depth_sub = rospy.Subscriber(topic_name, Image, depth_estimation, queue_size=1)
