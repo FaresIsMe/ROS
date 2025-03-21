@@ -10,11 +10,13 @@
 
 (in-package "ROS")
 ;;//! \htmlinclude BoundingBox.msg.html
+(if (not (find-package "GEOMETRY_MSGS"))
+  (ros::roseus-add-msgs "geometry_msgs"))
 
 
 (defclass perception_stack_pkg::BoundingBox
   :super ros::object
-  :slots (_x1 _y1 _x2 _y2 _confidence _class_name _class_id _x _y _width _height ))
+  :slots (_x1 _y1 _x2 _y2 _confidence _class_name _class_id _x _y _width _height _speed _direction ))
 
 (defmethod perception_stack_pkg::BoundingBox
   (:init
@@ -30,6 +32,8 @@
     ((:y __y) 0)
     ((:width __width) 0)
     ((:height __height) 0)
+    ((:speed __speed) 0.0)
+    ((:direction __direction) (instance geometry_msgs::Vector3 :init))
     )
    (send-super :init)
    (setq _x1 (round __x1))
@@ -43,6 +47,8 @@
    (setq _y (round __y))
    (setq _width (round __width))
    (setq _height (round __height))
+   (setq _speed (float __speed))
+   (setq _direction __direction)
    self)
   (:x1
    (&optional __x1)
@@ -77,6 +83,16 @@
   (:height
    (&optional __height)
    (if __height (setq _height __height)) _height)
+  (:speed
+   (&optional __speed)
+   (if __speed (setq _speed __speed)) _speed)
+  (:direction
+   (&rest __direction)
+   (if (keywordp (car __direction))
+       (send* _direction __direction)
+     (progn
+       (if __direction (setq _direction (car __direction)))
+       _direction)))
   (:serialization-length
    ()
    (+
@@ -102,6 +118,10 @@
     4
     ;; int32 _height
     4
+    ;; float32 _speed
+    4
+    ;; geometry_msgs/Vector3 _direction
+    (send _direction :serialization-length)
     ))
   (:serialize
    (&optional strm)
@@ -129,6 +149,10 @@
        (write-long _width s)
      ;; int32 _height
        (write-long _height s)
+     ;; float32 _speed
+       (sys::poke _speed (send s :buffer) (send s :count) :float) (incf (stream-count s) 4)
+     ;; geometry_msgs/Vector3 _direction
+       (send _direction :serialize s)
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
@@ -155,11 +179,15 @@
      (setq _width (sys::peek buf ptr- :integer)) (incf ptr- 4)
    ;; int32 _height
      (setq _height (sys::peek buf ptr- :integer)) (incf ptr- 4)
+   ;; float32 _speed
+     (setq _speed (sys::peek buf ptr- :float)) (incf ptr- 4)
+   ;; geometry_msgs/Vector3 _direction
+     (send _direction :deserialize buf ptr-) (incf ptr- (send _direction :serialization-length))
    ;;
    self)
   )
 
-(setf (get perception_stack_pkg::BoundingBox :md5sum-) "f3990488dc83063dd45210280cc12f22")
+(setf (get perception_stack_pkg::BoundingBox :md5sum-) "b3294fcf8c14633436ae2e0b4ba8ac4c")
 (setf (get perception_stack_pkg::BoundingBox :datatype-) "perception_stack_pkg/BoundingBox")
 (setf (get perception_stack_pkg::BoundingBox :definition-)
       "int32 x1
@@ -173,12 +201,26 @@ int32 x
 int32 y
 int32 width
 int32 height
+float32 speed
+geometry_msgs/Vector3 direction
 
 
+================================================================================
+MSG: geometry_msgs/Vector3
+# This represents a vector in free space. 
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a 
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z
 ")
 
 
 
-(provide :perception_stack_pkg/BoundingBox "f3990488dc83063dd45210280cc12f22")
+(provide :perception_stack_pkg/BoundingBox "b3294fcf8c14633436ae2e0b4ba8ac4c")
 
 

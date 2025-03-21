@@ -95,7 +95,7 @@ class DetectionList {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '5f7c56c637c85f5556d0300fcb83a605';
+    return '78ca9429b3b363536a5e96154f3d5dfd';
   }
 
   static messageDefinition() {
@@ -104,6 +104,7 @@ class DetectionList {
     Header header
     int32 frame_id
     BoundingBox[] detections
+    
     ================================================================================
     MSG: std_msgs/Header
     # Standard metadata for higher-level stamped data types.
@@ -133,8 +134,22 @@ class DetectionList {
     int32 y
     int32 width
     int32 height
+    float32 speed
+    geometry_msgs/Vector3 direction
     
     
+    ================================================================================
+    MSG: geometry_msgs/Vector3
+    # This represents a vector in free space. 
+    # It is only meant to represent a direction. Therefore, it does not
+    # make sense to apply a translation to it (e.g., when applying a 
+    # generic rigid transformation to a Vector3, tf2 will only apply the
+    # rotation). If you want your data to be translatable too, use the
+    # geometry_msgs/Point message instead.
+    
+    float64 x
+    float64 y
+    float64 z
     `;
   }
 

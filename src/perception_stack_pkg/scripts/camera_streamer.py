@@ -8,7 +8,7 @@ import cv2
 
 def camera_stream():
     rospy.init_node('camera_streamer_node', anonymous=True)
-    pub = rospy.Publisher("/camera_stream", Image, queue_size=1000)
+    pub = rospy.Publisher("/camera_stream", Image, queue_size=10)
     bridge = CvBridge()
 
     capture = cv2.VideoCapture("/home/fares/Downloads/Dashcam Catches T-Bone Crash __ ViralHog.mp4")

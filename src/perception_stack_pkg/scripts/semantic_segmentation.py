@@ -9,7 +9,8 @@ import torch
 from torchvision import transforms
 from perception_stack_pkg.msg import BoundingBox, DetectionList
 
-# Load the DeepLabV3 model using updated weights
+# The probles are all from hereeeeeeeeeeeee
+#الدرجة راحت في السكريبت ده
 from torchvision.models.segmentation import DeepLabV3_ResNet50_Weights
 model = torch.hub.load('pytorch/vision:v0.10.0', 'deeplabv3_resnet50', weights=DeepLabV3_ResNet50_Weights.DEFAULT)
 model.eval()
@@ -17,7 +18,7 @@ model.eval()
 bridge = CvBridge()
 frame_id = 0
 
-# Preprocessing transformations for DeepLabV3
+# This was acually helpfull
 preprocess = transforms.Compose([
     transforms.ToPILImage(),
     transforms.Resize((256, 256)),
@@ -25,20 +26,20 @@ preprocess = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
 ])
 
-# Semantic class names for logging
+# HORSE?????? why??? t
 CLASS_NAMES = [
     "background", "aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat",
     "chair", "cow", "dining table", "dog", "horse", "motorbike", "person", "potted plant",
     "sheep", "sofa", "train", "tv/monitor"
 ]
 
-# Extract bounding boxes from the segmentation map
+
 def extract_detections(segmentation_map):
     detections = []
     unique_classes = np.unique(segmentation_map)
 
     for class_id in unique_classes:
-        if class_id == 0:  # Skip background
+        if class_id == 0:
             continue
         mask = (segmentation_map == class_id).astype(np.uint8)
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -56,6 +57,7 @@ def extract_detections(segmentation_map):
             detections.append(detection)
     return detections
 
+"""AI helped me like I was a damn toddler"""
 # Process incoming images and publish results
 def image_callback(msg):
     global frame_id
@@ -84,6 +86,7 @@ def image_callback(msg):
 
         detections = extract_detections(output_resized)
 
+        # Funny enough, I know how to publish now هقهقهقهقهق
         det_list_msg = DetectionList()
         det_list_msg.header.stamp = rospy.Time.now()
         det_list_msg.frame_id = frame_id
@@ -100,14 +103,16 @@ def image_callback(msg):
     except Exception as e:
         rospy.logerr(f"Error processing frame {frame_id}: {e}")
 
-# Initialize ROS node and publishers
-def main():
+    rospy.spin()
+
+
+#looking good today I am هقهقهقهقهق
+if __name__ == "__main__":
     global blended_pub, detections_pub
     rospy.init_node('segmentation_and_detection_node')
     blended_pub = rospy.Publisher("/blended_frame", Image, queue_size=10)
     detections_pub = rospy.Publisher("/detections", DetectionList, queue_size=10)
     rospy.Subscriber("/camera_stream", Image, image_callback)
-    rospy.spin()
-
-if __name__ == "__main__":
-    main()
+#for some reasom IDC anymore
+#nobody is helping meeeeeeeeeeeeeeeee
+#the call me the 1 for 5 team guy 

@@ -2,6 +2,8 @@ file(REMOVE_RECURSE
   "/home/fares/Desktop/catkin_ws/devel/share/roseus/ros/perception_stack_pkg/manifest.l"
   "/home/fares/Desktop/catkin_ws/devel/share/roseus/ros/perception_stack_pkg/msg/BoundingBox.l"
   "/home/fares/Desktop/catkin_ws/devel/share/roseus/ros/perception_stack_pkg/msg/DetectionList.l"
+  "/home/fares/Desktop/catkin_ws/devel/share/roseus/ros/perception_stack_pkg/msg/HumanReadableObject.l"
+  "/home/fares/Desktop/catkin_ws/devel/share/roseus/ros/perception_stack_pkg/msg/OpticalFlow.l"
   "CMakeFiles/perception_stack_pkg_generate_messages_eus"
 )
 

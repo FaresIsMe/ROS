@@ -89,12 +89,13 @@
    self)
   )
 
-(setf (get perception_stack_pkg::DetectionList :md5sum-) "5f7c56c637c85f5556d0300fcb83a605")
+(setf (get perception_stack_pkg::DetectionList :md5sum-) "78ca9429b3b363536a5e96154f3d5dfd")
 (setf (get perception_stack_pkg::DetectionList :datatype-) "perception_stack_pkg/DetectionList")
 (setf (get perception_stack_pkg::DetectionList :definition-)
       "Header header
 int32 frame_id
 BoundingBox[] detections
+
 ================================================================================
 MSG: std_msgs/Header
 # Standard metadata for higher-level stamped data types.
@@ -124,12 +125,26 @@ int32 x
 int32 y
 int32 width
 int32 height
+float32 speed
+geometry_msgs/Vector3 direction
 
 
+================================================================================
+MSG: geometry_msgs/Vector3
+# This represents a vector in free space. 
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a 
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z
 ")
 
 
 
-(provide :perception_stack_pkg/DetectionList "5f7c56c637c85f5556d0300fcb83a605")
+(provide :perception_stack_pkg/DetectionList "78ca9429b3b363536a5e96154f3d5dfd")
 
 

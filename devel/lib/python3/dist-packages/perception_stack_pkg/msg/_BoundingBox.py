@@ -6,9 +6,10 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
+import geometry_msgs.msg
 
 class BoundingBox(genpy.Message):
-  _md5sum = "f3990488dc83063dd45210280cc12f22"
+  _md5sum = "b3294fcf8c14633436ae2e0b4ba8ac4c"
   _type = "perception_stack_pkg/BoundingBox"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int32 x1
@@ -22,10 +23,24 @@ int32 x
 int32 y
 int32 width
 int32 height
+float32 speed
+geometry_msgs/Vector3 direction
 
-"""
-  __slots__ = ['x1','y1','x2','y2','confidence','class_name','class_id','x','y','width','height']
-  _slot_types = ['int32','int32','int32','int32','float32','string','int32','int32','int32','int32','int32']
+
+================================================================================
+MSG: geometry_msgs/Vector3
+# This represents a vector in free space. 
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a 
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z"""
+  __slots__ = ['x1','y1','x2','y2','confidence','class_name','class_id','x','y','width','height','speed','direction']
+  _slot_types = ['int32','int32','int32','int32','float32','string','int32','int32','int32','int32','int32','float32','geometry_msgs/Vector3']
 
   def __init__(self, *args, **kwds):
     """
@@ -35,7 +50,7 @@ int32 height
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       x1,y1,x2,y2,confidence,class_name,class_id,x,y,width,height
+       x1,y1,x2,y2,confidence,class_name,class_id,x,y,width,height,speed,direction
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -66,6 +81,10 @@ int32 height
         self.width = 0
       if self.height is None:
         self.height = 0
+      if self.speed is None:
+        self.speed = 0.
+      if self.direction is None:
+        self.direction = geometry_msgs.msg.Vector3()
     else:
       self.x1 = 0
       self.y1 = 0
@@ -78,6 +97,8 @@ int32 height
       self.y = 0
       self.width = 0
       self.height = 0
+      self.speed = 0.
+      self.direction = geometry_msgs.msg.Vector3()
 
   def _get_types(self):
     """
@@ -100,7 +121,7 @@ int32 height
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
       _x = self
-      buff.write(_get_struct_5i().pack(_x.class_id, _x.x, _x.y, _x.width, _x.height))
+      buff.write(_get_struct_5if3d().pack(_x.class_id, _x.x, _x.y, _x.width, _x.height, _x.speed, _x.direction.x, _x.direction.y, _x.direction.z))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -112,6 +133,8 @@ int32 height
     if python3:
       codecs.lookup_error("rosmsg").msg_type = self._type
     try:
+      if self.direction is None:
+        self.direction = geometry_msgs.msg.Vector3()
       end = 0
       _x = self
       start = end
@@ -128,8 +151,8 @@ int32 height
         self.class_name = str[start:end]
       _x = self
       start = end
-      end += 20
-      (_x.class_id, _x.x, _x.y, _x.width, _x.height,) = _get_struct_5i().unpack(str[start:end])
+      end += 48
+      (_x.class_id, _x.x, _x.y, _x.width, _x.height, _x.speed, _x.direction.x, _x.direction.y, _x.direction.z,) = _get_struct_5if3d().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -151,7 +174,7 @@ int32 height
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
       _x = self
-      buff.write(_get_struct_5i().pack(_x.class_id, _x.x, _x.y, _x.width, _x.height))
+      buff.write(_get_struct_5if3d().pack(_x.class_id, _x.x, _x.y, _x.width, _x.height, _x.speed, _x.direction.x, _x.direction.y, _x.direction.z))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -164,6 +187,8 @@ int32 height
     if python3:
       codecs.lookup_error("rosmsg").msg_type = self._type
     try:
+      if self.direction is None:
+        self.direction = geometry_msgs.msg.Vector3()
       end = 0
       _x = self
       start = end
@@ -180,8 +205,8 @@ int32 height
         self.class_name = str[start:end]
       _x = self
       start = end
-      end += 20
-      (_x.class_id, _x.x, _x.y, _x.width, _x.height,) = _get_struct_5i().unpack(str[start:end])
+      end += 48
+      (_x.class_id, _x.x, _x.y, _x.width, _x.height, _x.speed, _x.direction.x, _x.direction.y, _x.direction.z,) = _get_struct_5if3d().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -196,9 +221,9 @@ def _get_struct_4if():
     if _struct_4if is None:
         _struct_4if = struct.Struct("<4if")
     return _struct_4if
-_struct_5i = None
-def _get_struct_5i():
-    global _struct_5i
-    if _struct_5i is None:
-        _struct_5i = struct.Struct("<5i")
-    return _struct_5i
+_struct_5if3d = None
+def _get_struct_5if3d():
+    global _struct_5if3d
+    if _struct_5if3d is None:
+        _struct_5if3d = struct.Struct("<5if3d")
+    return _struct_5if3d

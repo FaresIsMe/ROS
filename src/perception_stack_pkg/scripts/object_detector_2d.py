@@ -21,10 +21,7 @@ def object_detected(image_msg):
         msg_stamp = image_message_header.stamp
         msg_frame_id = image_message_header.frame_id
 
-        # Convert the image message to OpenCV image
         frame = bridge.imgmsg_to_cv2(image_msg, desired_encoding="bgr8")
-
-        # Perform object detection
         result = model(frame)[0]
         rospy.loginfo(f"Image detected, frame {msg_frame_id} {frame.dtype}")
 
@@ -54,11 +51,7 @@ def object_detected(image_msg):
                         cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36, 200, 12), 1) #BGR
             
             pub.publish(det_list_msg)
-            #rospy.loginfo(f"Object detected and published: {class_name}")
-            
 
-
-        # Show the image with detections
         cv2.imshow("Object Detection", frame)
         cv2.waitKey(1)
 

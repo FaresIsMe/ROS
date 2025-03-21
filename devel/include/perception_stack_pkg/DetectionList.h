@@ -136,12 +136,12 @@ struct MD5Sum< ::perception_stack_pkg::DetectionList_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "5f7c56c637c85f5556d0300fcb83a605";
+    return "78ca9429b3b363536a5e96154f3d5dfd";
   }
 
   static const char* value(const ::perception_stack_pkg::DetectionList_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x5f7c56c637c85f55ULL;
-  static const uint64_t static_value2 = 0x56d0300fcb83a605ULL;
+  static const uint64_t static_value1 = 0x78ca9429b3b36353ULL;
+  static const uint64_t static_value2 = 0x6a5e96154f3d5dfdULL;
 };
 
 template<class ContainerAllocator>
@@ -163,6 +163,7 @@ struct Definition< ::perception_stack_pkg::DetectionList_<ContainerAllocator> >
     return "Header header\n"
 "int32 frame_id\n"
 "BoundingBox[] detections\n"
+"\n"
 "================================================================================\n"
 "MSG: std_msgs/Header\n"
 "# Standard metadata for higher-level stamped data types.\n"
@@ -192,7 +193,22 @@ struct Definition< ::perception_stack_pkg::DetectionList_<ContainerAllocator> >
 "int32 y\n"
 "int32 width\n"
 "int32 height\n"
+"float32 speed\n"
+"geometry_msgs/Vector3 direction\n"
 "\n"
+"\n"
+"================================================================================\n"
+"MSG: geometry_msgs/Vector3\n"
+"# This represents a vector in free space. \n"
+"# It is only meant to represent a direction. Therefore, it does not\n"
+"# make sense to apply a translation to it (e.g., when applying a \n"
+"# generic rigid transformation to a Vector3, tf2 will only apply the\n"
+"# rotation). If you want your data to be translatable too, use the\n"
+"# geometry_msgs/Point message instead.\n"
+"\n"
+"float64 x\n"
+"float64 y\n"
+"float64 z\n"
 ;
   }
 

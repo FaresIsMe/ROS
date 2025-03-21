@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/fares/Desktop/catkin_ws/build
 include perception_stack_pkg/CMakeFiles/_perception_stack_pkg_generate_messages_check_deps_DetectionList.dir/progress.make
 
 perception_stack_pkg/CMakeFiles/_perception_stack_pkg_generate_messages_check_deps_DetectionList:
-	cd /home/fares/Desktop/catkin_ws/build/perception_stack_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py perception_stack_pkg /home/fares/Desktop/catkin_ws/src/perception_stack_pkg/msg/DetectionList.msg perception_stack_pkg/BoundingBox:std_msgs/Header
+	cd /home/fares/Desktop/catkin_ws/build/perception_stack_pkg && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py perception_stack_pkg /home/fares/Desktop/catkin_ws/src/perception_stack_pkg/msg/DetectionList.msg perception_stack_pkg/BoundingBox:geometry_msgs/Vector3:std_msgs/Header
 
 _perception_stack_pkg_generate_messages_check_deps_DetectionList: perception_stack_pkg/CMakeFiles/_perception_stack_pkg_generate_messages_check_deps_DetectionList
 _perception_stack_pkg_generate_messages_check_deps_DetectionList: perception_stack_pkg/CMakeFiles/_perception_stack_pkg_generate_messages_check_deps_DetectionList.dir/build.make

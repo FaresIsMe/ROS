@@ -41,6 +41,8 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/perception_stack_pkg/msg" TYPE FILE FILES
     "/home/fares/Desktop/catkin_ws/src/perception_stack_pkg/msg/BoundingBox.msg"
     "/home/fares/Desktop/catkin_ws/src/perception_stack_pkg/msg/DetectionList.msg"
+    "/home/fares/Desktop/catkin_ws/src/perception_stack_pkg/msg/OpticalFlow.msg"
+    "/home/fares/Desktop/catkin_ws/src/perception_stack_pkg/msg/HumanReadableObject.msg"
     )
 endif()
 

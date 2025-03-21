@@ -15,6 +15,7 @@
 #include <ros/builtin_message_traits.h>
 #include <ros/message_operations.h>
 
+#include <geometry_msgs/Vector3.h>
 
 namespace perception_stack_pkg
 {
@@ -34,7 +35,9 @@ struct BoundingBox_
     , x(0)
     , y(0)
     , width(0)
-    , height(0)  {
+    , height(0)
+    , speed(0.0)
+    , direction()  {
     }
   BoundingBox_(const ContainerAllocator& _alloc)
     : x1(0)
@@ -47,7 +50,9 @@ struct BoundingBox_
     , x(0)
     , y(0)
     , width(0)
-    , height(0)  {
+    , height(0)
+    , speed(0.0)
+    , direction(_alloc)  {
   (void)_alloc;
     }
 
@@ -85,6 +90,12 @@ struct BoundingBox_
 
    typedef int32_t _height_type;
   _height_type height;
+
+   typedef float _speed_type;
+  _speed_type speed;
+
+   typedef  ::geometry_msgs::Vector3_<ContainerAllocator>  _direction_type;
+  _direction_type direction;
 
 
 
@@ -125,7 +136,9 @@ bool operator==(const ::perception_stack_pkg::BoundingBox_<ContainerAllocator1> 
     lhs.x == rhs.x &&
     lhs.y == rhs.y &&
     lhs.width == rhs.width &&
-    lhs.height == rhs.height;
+    lhs.height == rhs.height &&
+    lhs.speed == rhs.speed &&
+    lhs.direction == rhs.direction;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -182,12 +195,12 @@ struct MD5Sum< ::perception_stack_pkg::BoundingBox_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "f3990488dc83063dd45210280cc12f22";
+    return "b3294fcf8c14633436ae2e0b4ba8ac4c";
   }
 
   static const char* value(const ::perception_stack_pkg::BoundingBox_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xf3990488dc83063dULL;
-  static const uint64_t static_value2 = 0xd45210280cc12f22ULL;
+  static const uint64_t static_value1 = 0xb3294fcf8c146334ULL;
+  static const uint64_t static_value2 = 0x36ae2e0b4ba8ac4cULL;
 };
 
 template<class ContainerAllocator>
@@ -217,7 +230,22 @@ struct Definition< ::perception_stack_pkg::BoundingBox_<ContainerAllocator> >
 "int32 y\n"
 "int32 width\n"
 "int32 height\n"
+"float32 speed\n"
+"geometry_msgs/Vector3 direction\n"
 "\n"
+"\n"
+"================================================================================\n"
+"MSG: geometry_msgs/Vector3\n"
+"# This represents a vector in free space. \n"
+"# It is only meant to represent a direction. Therefore, it does not\n"
+"# make sense to apply a translation to it (e.g., when applying a \n"
+"# generic rigid transformation to a Vector3, tf2 will only apply the\n"
+"# rotation). If you want your data to be translatable too, use the\n"
+"# geometry_msgs/Point message instead.\n"
+"\n"
+"float64 x\n"
+"float64 y\n"
+"float64 z\n"
 ;
   }
 
@@ -247,6 +275,8 @@ namespace serialization
       stream.next(m.y);
       stream.next(m.width);
       stream.next(m.height);
+      stream.next(m.speed);
+      stream.next(m.direction);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -287,6 +317,11 @@ struct Printer< ::perception_stack_pkg::BoundingBox_<ContainerAllocator> >
     Printer<int32_t>::stream(s, indent + "  ", v.width);
     s << indent << "height: ";
     Printer<int32_t>::stream(s, indent + "  ", v.height);
+    s << indent << "speed: ";
+    Printer<float>::stream(s, indent + "  ", v.speed);
+    s << indent << "direction: ";
+    s << std::endl;
+    Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.direction);
   }
 };
 

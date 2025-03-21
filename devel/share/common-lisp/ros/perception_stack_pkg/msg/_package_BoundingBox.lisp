@@ -21,4 +21,8 @@
           WIDTH
           HEIGHT-VAL
           HEIGHT
+          SPEED-VAL
+          SPEED
+          DIRECTION-VAL
+          DIRECTION
 ))

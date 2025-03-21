@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
+  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -53,6 +54,8 @@ find_package(catkin REQUIRED COMPONENTS
   FILES
   BoundingBox.msg
   DetectionList.msg
+  OpticalFlow.msg
+  HumanReadableObject.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -74,6 +77,7 @@ find_package(catkin REQUIRED COMPONENTS
    DEPENDENCIES
    sensor_msgs  
    std_msgs
+   geometry_msgs
  )
 
 ################################################

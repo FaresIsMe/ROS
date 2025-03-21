@@ -61,7 +61,17 @@
     :reader height
     :initarg :height
     :type cl:integer
-    :initform 0))
+    :initform 0)
+   (speed
+    :reader speed
+    :initarg :speed
+    :type cl:float
+    :initform 0.0)
+   (direction
+    :reader direction
+    :initarg :direction
+    :type geometry_msgs-msg:Vector3
+    :initform (cl:make-instance 'geometry_msgs-msg:Vector3)))
 )
 
 (cl:defclass BoundingBox (<BoundingBox>)
@@ -126,6 +136,16 @@
 (cl:defmethod height-val ((m <BoundingBox>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader perception_stack_pkg-msg:height-val is deprecated.  Use perception_stack_pkg-msg:height instead.")
   (height m))
+
+(cl:ensure-generic-function 'speed-val :lambda-list '(m))
+(cl:defmethod speed-val ((m <BoundingBox>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader perception_stack_pkg-msg:speed-val is deprecated.  Use perception_stack_pkg-msg:speed instead.")
+  (speed m))
+
+(cl:ensure-generic-function 'direction-val :lambda-list '(m))
+(cl:defmethod direction-val ((m <BoundingBox>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader perception_stack_pkg-msg:direction-val is deprecated.  Use perception_stack_pkg-msg:direction instead.")
+  (direction m))
 (cl:defmethod roslisp-msg-protocol:serialize ((msg <BoundingBox>) ostream)
   "Serializes a message object of type '<BoundingBox>"
   (cl:let* ((signed (cl:slot-value msg 'x1)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 4294967296) signed)))
@@ -193,6 +213,12 @@
     (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
     )
+  (cl:let ((bits (roslisp-utils:encode-single-float-bits (cl:slot-value msg 'speed))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream))
+  (roslisp-msg-protocol:serialize (cl:slot-value msg 'direction) ostream)
 )
 (cl:defmethod roslisp-msg-protocol:deserialize ((msg <BoundingBox>) istream)
   "Deserializes a message object of type '<BoundingBox>"
@@ -264,6 +290,13 @@
       (cl:setf (cl:ldb (cl:byte 8 16) unsigned) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 24) unsigned) (cl:read-byte istream))
       (cl:setf (cl:slot-value msg 'height) (cl:if (cl:< unsigned 2147483648) unsigned (cl:- unsigned 4294967296))))
+    (cl:let ((bits 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
+    (cl:setf (cl:slot-value msg 'speed) (roslisp-utils:decode-single-float-bits bits)))
+  (roslisp-msg-protocol:deserialize (cl:slot-value msg 'direction) istream)
   msg
 )
 (cl:defmethod roslisp-msg-protocol:ros-datatype ((msg (cl:eql '<BoundingBox>)))
@@ -274,16 +307,16 @@
   "perception_stack_pkg/BoundingBox")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<BoundingBox>)))
   "Returns md5sum for a message object of type '<BoundingBox>"
-  "f3990488dc83063dd45210280cc12f22")
+  "b3294fcf8c14633436ae2e0b4ba8ac4c")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'BoundingBox)))
   "Returns md5sum for a message object of type 'BoundingBox"
-  "f3990488dc83063dd45210280cc12f22")
+  "b3294fcf8c14633436ae2e0b4ba8ac4c")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<BoundingBox>)))
   "Returns full string definition for message of type '<BoundingBox>"
-  (cl:format cl:nil "int32 x1~%int32 y1~%int32 x2~%int32 y2~%float32 confidence~%string class_name~%int32 class_id~%int32 x~%int32 y~%int32 width~%int32 height~%~%~%~%"))
+  (cl:format cl:nil "int32 x1~%int32 y1~%int32 x2~%int32 y2~%float32 confidence~%string class_name~%int32 class_id~%int32 x~%int32 y~%int32 width~%int32 height~%float32 speed~%geometry_msgs/Vector3 direction~%~%~%================================================================================~%MSG: geometry_msgs/Vector3~%# This represents a vector in free space. ~%# It is only meant to represent a direction. Therefore, it does not~%# make sense to apply a translation to it (e.g., when applying a ~%# generic rigid transformation to a Vector3, tf2 will only apply the~%# rotation). If you want your data to be translatable too, use the~%# geometry_msgs/Point message instead.~%~%float64 x~%float64 y~%float64 z~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'BoundingBox)))
   "Returns full string definition for message of type 'BoundingBox"
-  (cl:format cl:nil "int32 x1~%int32 y1~%int32 x2~%int32 y2~%float32 confidence~%string class_name~%int32 class_id~%int32 x~%int32 y~%int32 width~%int32 height~%~%~%~%"))
+  (cl:format cl:nil "int32 x1~%int32 y1~%int32 x2~%int32 y2~%float32 confidence~%string class_name~%int32 class_id~%int32 x~%int32 y~%int32 width~%int32 height~%float32 speed~%geometry_msgs/Vector3 direction~%~%~%================================================================================~%MSG: geometry_msgs/Vector3~%# This represents a vector in free space. ~%# It is only meant to represent a direction. Therefore, it does not~%# make sense to apply a translation to it (e.g., when applying a ~%# generic rigid transformation to a Vector3, tf2 will only apply the~%# rotation). If you want your data to be translatable too, use the~%# geometry_msgs/Point message instead.~%~%float64 x~%float64 y~%float64 z~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <BoundingBox>))
   (cl:+ 0
      4
@@ -297,6 +330,8 @@
      4
      4
      4
+     4
+     (roslisp-msg-protocol:serialization-length (cl:slot-value msg 'direction))
 ))
 (cl:defmethod roslisp-msg-protocol:ros-message-to-list ((msg <BoundingBox>))
   "Converts a ROS message object to a list"
@@ -312,4 +347,6 @@
     (cl:cons ':y (y msg))
     (cl:cons ':width (width msg))
     (cl:cons ':height (height msg))
+    (cl:cons ':speed (speed msg))
+    (cl:cons ':direction (direction msg))
 ))

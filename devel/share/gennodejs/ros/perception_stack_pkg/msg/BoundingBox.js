@@ -11,6 +11,7 @@ const _deserializer = _ros_msg_utils.Deserialize;
 const _arrayDeserializer = _deserializer.Array;
 const _finder = _ros_msg_utils.Find;
 const _getByteLength = _ros_msg_utils.getByteLength;
+let geometry_msgs = _finder('geometry_msgs');
 
 //-----------------------------------------------------------
 
@@ -29,6 +30,8 @@ class BoundingBox {
       this.y = null;
       this.width = null;
       this.height = null;
+      this.speed = null;
+      this.direction = null;
     }
     else {
       if (initObj.hasOwnProperty('x1')) {
@@ -97,6 +100,18 @@ class BoundingBox {
       else {
         this.height = 0;
       }
+      if (initObj.hasOwnProperty('speed')) {
+        this.speed = initObj.speed
+      }
+      else {
+        this.speed = 0.0;
+      }
+      if (initObj.hasOwnProperty('direction')) {
+        this.direction = initObj.direction
+      }
+      else {
+        this.direction = new geometry_msgs.msg.Vector3();
+      }
     }
   }
 
@@ -124,6 +139,10 @@ class BoundingBox {
     bufferOffset = _serializer.int32(obj.width, buffer, bufferOffset);
     // Serialize message field [height]
     bufferOffset = _serializer.int32(obj.height, buffer, bufferOffset);
+    // Serialize message field [speed]
+    bufferOffset = _serializer.float32(obj.speed, buffer, bufferOffset);
+    // Serialize message field [direction]
+    bufferOffset = geometry_msgs.msg.Vector3.serialize(obj.direction, buffer, bufferOffset);
     return bufferOffset;
   }
 
@@ -153,13 +172,17 @@ class BoundingBox {
     data.width = _deserializer.int32(buffer, bufferOffset);
     // Deserialize message field [height]
     data.height = _deserializer.int32(buffer, bufferOffset);
+    // Deserialize message field [speed]
+    data.speed = _deserializer.float32(buffer, bufferOffset);
+    // Deserialize message field [direction]
+    data.direction = geometry_msgs.msg.Vector3.deserialize(buffer, bufferOffset);
     return data;
   }
 
   static getMessageSize(object) {
     let length = 0;
     length += _getByteLength(object.class_name);
-    return length + 44;
+    return length + 72;
   }
 
   static datatype() {
@@ -169,7 +192,7 @@ class BoundingBox {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'f3990488dc83063dd45210280cc12f22';
+    return 'b3294fcf8c14633436ae2e0b4ba8ac4c';
   }
 
   static messageDefinition() {
@@ -186,8 +209,22 @@ class BoundingBox {
     int32 y
     int32 width
     int32 height
+    float32 speed
+    geometry_msgs/Vector3 direction
     
     
+    ================================================================================
+    MSG: geometry_msgs/Vector3
+    # This represents a vector in free space. 
+    # It is only meant to represent a direction. Therefore, it does not
+    # make sense to apply a translation to it (e.g., when applying a 
+    # generic rigid transformation to a Vector3, tf2 will only apply the
+    # rotation). If you want your data to be translatable too, use the
+    # geometry_msgs/Point message instead.
+    
+    float64 x
+    float64 y
+    float64 z
     `;
   }
 
@@ -272,6 +309,20 @@ class BoundingBox {
     }
     else {
       resolved.height = 0
+    }
+
+    if (msg.speed !== undefined) {
+      resolved.speed = msg.speed;
+    }
+    else {
+      resolved.speed = 0.0
+    }
+
+    if (msg.direction !== undefined) {
+      resolved.direction = geometry_msgs.msg.Vector3.Resolve(msg.direction)
+    }
+    else {
+      resolved.direction = new geometry_msgs.msg.Vector3()
     }
 
     return resolved;

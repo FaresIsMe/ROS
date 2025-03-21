@@ -6,16 +6,18 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
+import geometry_msgs.msg
 import perception_stack_pkg.msg
 import std_msgs.msg
 
 class DetectionList(genpy.Message):
-  _md5sum = "5f7c56c637c85f5556d0300fcb83a605"
+  _md5sum = "78ca9429b3b363536a5e96154f3d5dfd"
   _type = "perception_stack_pkg/DetectionList"
   _has_header = True  # flag to mark the presence of a Header object
   _full_text = """Header header
 int32 frame_id
 BoundingBox[] detections
+
 ================================================================================
 MSG: std_msgs/Header
 # Standard metadata for higher-level stamped data types.
@@ -45,8 +47,22 @@ int32 x
 int32 y
 int32 width
 int32 height
+float32 speed
+geometry_msgs/Vector3 direction
 
-"""
+
+================================================================================
+MSG: geometry_msgs/Vector3
+# This represents a vector in free space. 
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a 
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z"""
   __slots__ = ['header','frame_id','detections']
   _slot_types = ['std_msgs/Header','int32','perception_stack_pkg/BoundingBox[]']
 
@@ -112,7 +128,10 @@ int32 height
           length = len(_x)
         buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
         _x = val1
-        buff.write(_get_struct_5i().pack(_x.class_id, _x.x, _x.y, _x.width, _x.height))
+        buff.write(_get_struct_5if().pack(_x.class_id, _x.x, _x.y, _x.width, _x.height, _x.speed))
+        _v1 = val1.direction
+        _x = _v1
+        buff.write(_get_struct_3d().pack(_x.x, _x.y, _x.z))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -166,8 +185,13 @@ int32 height
           val1.class_name = str[start:end]
         _x = val1
         start = end
-        end += 20
-        (_x.class_id, _x.x, _x.y, _x.width, _x.height,) = _get_struct_5i().unpack(str[start:end])
+        end += 24
+        (_x.class_id, _x.x, _x.y, _x.width, _x.height, _x.speed,) = _get_struct_5if().unpack(str[start:end])
+        _v2 = val1.direction
+        _x = _v2
+        start = end
+        end += 24
+        (_x.x, _x.y, _x.z,) = _get_struct_3d().unpack(str[start:end])
         self.detections.append(val1)
       return self
     except struct.error as e:
@@ -203,7 +227,10 @@ int32 height
           length = len(_x)
         buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
         _x = val1
-        buff.write(_get_struct_5i().pack(_x.class_id, _x.x, _x.y, _x.width, _x.height))
+        buff.write(_get_struct_5if().pack(_x.class_id, _x.x, _x.y, _x.width, _x.height, _x.speed))
+        _v3 = val1.direction
+        _x = _v3
+        buff.write(_get_struct_3d().pack(_x.x, _x.y, _x.z))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -258,8 +285,13 @@ int32 height
           val1.class_name = str[start:end]
         _x = val1
         start = end
-        end += 20
-        (_x.class_id, _x.x, _x.y, _x.width, _x.height,) = _get_struct_5i().unpack(str[start:end])
+        end += 24
+        (_x.class_id, _x.x, _x.y, _x.width, _x.height, _x.speed,) = _get_struct_5if().unpack(str[start:end])
+        _v4 = val1.direction
+        _x = _v4
+        start = end
+        end += 24
+        (_x.x, _x.y, _x.z,) = _get_struct_3d().unpack(str[start:end])
         self.detections.append(val1)
       return self
     except struct.error as e:
@@ -275,18 +307,24 @@ def _get_struct_3I():
     if _struct_3I is None:
         _struct_3I = struct.Struct("<3I")
     return _struct_3I
+_struct_3d = None
+def _get_struct_3d():
+    global _struct_3d
+    if _struct_3d is None:
+        _struct_3d = struct.Struct("<3d")
+    return _struct_3d
 _struct_4if = None
 def _get_struct_4if():
     global _struct_4if
     if _struct_4if is None:
         _struct_4if = struct.Struct("<4if")
     return _struct_4if
-_struct_5i = None
-def _get_struct_5i():
-    global _struct_5i
-    if _struct_5i is None:
-        _struct_5i = struct.Struct("<5i")
-    return _struct_5i
+_struct_5if = None
+def _get_struct_5if():
+    global _struct_5if
+    if _struct_5if is None:
+        _struct_5if = struct.Struct("<5if")
+    return _struct_5if
 _struct_i = None
 def _get_struct_i():
     global _struct_i
