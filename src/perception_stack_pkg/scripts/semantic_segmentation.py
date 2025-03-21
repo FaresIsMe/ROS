@@ -32,7 +32,6 @@ CLASS_NAMES = [
 ]
 
 def extract_detections(segmentation_map):
-    """Extract bounding boxes from segmentation map."""
     detections = []
     unique_classes = np.unique(segmentation_map)
 
@@ -56,7 +55,6 @@ def extract_detections(segmentation_map):
     return detections
 
 def image_callback(msg):
-    """Process incoming images and publish results."""
     global frame_id
     try:
         frame_id += 1

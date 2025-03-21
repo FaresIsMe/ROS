@@ -21,7 +21,6 @@ def direction_to_words(vector):
         return "stationary"
 
 def callback(detection_msg, optical_flow_msg):
-    """Callback to process synchronized DetectionList and OpticalFlow messages."""
     processed_objects = DetectionList()
     processed_objects.header = detection_msg.header
     human_readable_objects = []
