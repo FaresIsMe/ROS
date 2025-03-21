@@ -27,10 +27,12 @@ struct DetectionList_
 
   DetectionList_()
     : header()
+    , frame_id(0)
     , detections()  {
     }
   DetectionList_(const ContainerAllocator& _alloc)
     : header(_alloc)
+    , frame_id(0)
     , detections(_alloc)  {
   (void)_alloc;
     }
@@ -39,6 +41,9 @@ struct DetectionList_
 
    typedef  ::std_msgs::Header_<ContainerAllocator>  _header_type;
   _header_type header;
+
+   typedef int32_t _frame_id_type;
+  _frame_id_type frame_id;
 
    typedef std::vector< ::perception_stack_pkg::BoundingBox_<ContainerAllocator> , typename std::allocator_traits<ContainerAllocator>::template rebind_alloc< ::perception_stack_pkg::BoundingBox_<ContainerAllocator> >> _detections_type;
   _detections_type detections;
@@ -73,6 +78,7 @@ template<typename ContainerAllocator1, typename ContainerAllocator2>
 bool operator==(const ::perception_stack_pkg::DetectionList_<ContainerAllocator1> & lhs, const ::perception_stack_pkg::DetectionList_<ContainerAllocator2> & rhs)
 {
   return lhs.header == rhs.header &&
+    lhs.frame_id == rhs.frame_id &&
     lhs.detections == rhs.detections;
 }
 
@@ -130,12 +136,12 @@ struct MD5Sum< ::perception_stack_pkg::DetectionList_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "0c20dfffbd42980d9aac4e331ce27fd6";
+    return "5f7c56c637c85f5556d0300fcb83a605";
   }
 
   static const char* value(const ::perception_stack_pkg::DetectionList_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x0c20dfffbd42980dULL;
-  static const uint64_t static_value2 = 0x9aac4e331ce27fd6ULL;
+  static const uint64_t static_value1 = 0x5f7c56c637c85f55ULL;
+  static const uint64_t static_value2 = 0x56d0300fcb83a605ULL;
 };
 
 template<class ContainerAllocator>
@@ -155,6 +161,7 @@ struct Definition< ::perception_stack_pkg::DetectionList_<ContainerAllocator> >
   static const char* value()
   {
     return "Header header\n"
+"int32 frame_id\n"
 "BoundingBox[] detections\n"
 "================================================================================\n"
 "MSG: std_msgs/Header\n"
@@ -180,6 +187,11 @@ struct Definition< ::perception_stack_pkg::DetectionList_<ContainerAllocator> >
 "int32 y2\n"
 "float32 confidence\n"
 "string class_name\n"
+"int32 class_id\n"
+"int32 x\n"
+"int32 y\n"
+"int32 width\n"
+"int32 height\n"
 "\n"
 ;
   }
@@ -200,6 +212,7 @@ namespace serialization
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
       stream.next(m.header);
+      stream.next(m.frame_id);
       stream.next(m.detections);
     }
 
@@ -222,6 +235,8 @@ struct Printer< ::perception_stack_pkg::DetectionList_<ContainerAllocator> >
     s << indent << "header: ";
     s << std::endl;
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
+    s << indent << "frame_id: ";
+    Printer<int32_t>::stream(s, indent + "  ", v.frame_id);
     s << indent << "detections[]" << std::endl;
     for (size_t i = 0; i < v.detections.size(); ++i)
     {

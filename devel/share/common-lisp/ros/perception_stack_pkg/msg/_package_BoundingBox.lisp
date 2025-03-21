@@ -11,4 +11,14 @@
           CONFIDENCE
           CLASS_NAME-VAL
           CLASS_NAME
+          CLASS_ID-VAL
+          CLASS_ID
+          X-VAL
+          X
+          Y-VAL
+          Y
+          WIDTH-VAL
+          WIDTH
+          HEIGHT-VAL
+          HEIGHT
 ))

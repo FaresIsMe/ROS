@@ -24,6 +24,11 @@ class BoundingBox {
       this.y2 = null;
       this.confidence = null;
       this.class_name = null;
+      this.class_id = null;
+      this.x = null;
+      this.y = null;
+      this.width = null;
+      this.height = null;
     }
     else {
       if (initObj.hasOwnProperty('x1')) {
@@ -62,6 +67,36 @@ class BoundingBox {
       else {
         this.class_name = '';
       }
+      if (initObj.hasOwnProperty('class_id')) {
+        this.class_id = initObj.class_id
+      }
+      else {
+        this.class_id = 0;
+      }
+      if (initObj.hasOwnProperty('x')) {
+        this.x = initObj.x
+      }
+      else {
+        this.x = 0;
+      }
+      if (initObj.hasOwnProperty('y')) {
+        this.y = initObj.y
+      }
+      else {
+        this.y = 0;
+      }
+      if (initObj.hasOwnProperty('width')) {
+        this.width = initObj.width
+      }
+      else {
+        this.width = 0;
+      }
+      if (initObj.hasOwnProperty('height')) {
+        this.height = initObj.height
+      }
+      else {
+        this.height = 0;
+      }
     }
   }
 
@@ -79,6 +114,16 @@ class BoundingBox {
     bufferOffset = _serializer.float32(obj.confidence, buffer, bufferOffset);
     // Serialize message field [class_name]
     bufferOffset = _serializer.string(obj.class_name, buffer, bufferOffset);
+    // Serialize message field [class_id]
+    bufferOffset = _serializer.int32(obj.class_id, buffer, bufferOffset);
+    // Serialize message field [x]
+    bufferOffset = _serializer.int32(obj.x, buffer, bufferOffset);
+    // Serialize message field [y]
+    bufferOffset = _serializer.int32(obj.y, buffer, bufferOffset);
+    // Serialize message field [width]
+    bufferOffset = _serializer.int32(obj.width, buffer, bufferOffset);
+    // Serialize message field [height]
+    bufferOffset = _serializer.int32(obj.height, buffer, bufferOffset);
     return bufferOffset;
   }
 
@@ -98,13 +143,23 @@ class BoundingBox {
     data.confidence = _deserializer.float32(buffer, bufferOffset);
     // Deserialize message field [class_name]
     data.class_name = _deserializer.string(buffer, bufferOffset);
+    // Deserialize message field [class_id]
+    data.class_id = _deserializer.int32(buffer, bufferOffset);
+    // Deserialize message field [x]
+    data.x = _deserializer.int32(buffer, bufferOffset);
+    // Deserialize message field [y]
+    data.y = _deserializer.int32(buffer, bufferOffset);
+    // Deserialize message field [width]
+    data.width = _deserializer.int32(buffer, bufferOffset);
+    // Deserialize message field [height]
+    data.height = _deserializer.int32(buffer, bufferOffset);
     return data;
   }
 
   static getMessageSize(object) {
     let length = 0;
     length += _getByteLength(object.class_name);
-    return length + 24;
+    return length + 44;
   }
 
   static datatype() {
@@ -114,7 +169,7 @@ class BoundingBox {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '2ee59cb565bd5608d90942e073e828a0';
+    return 'f3990488dc83063dd45210280cc12f22';
   }
 
   static messageDefinition() {
@@ -126,6 +181,11 @@ class BoundingBox {
     int32 y2
     float32 confidence
     string class_name
+    int32 class_id
+    int32 x
+    int32 y
+    int32 width
+    int32 height
     
     
     `;
@@ -177,6 +237,41 @@ class BoundingBox {
     }
     else {
       resolved.class_name = ''
+    }
+
+    if (msg.class_id !== undefined) {
+      resolved.class_id = msg.class_id;
+    }
+    else {
+      resolved.class_id = 0
+    }
+
+    if (msg.x !== undefined) {
+      resolved.x = msg.x;
+    }
+    else {
+      resolved.x = 0
+    }
+
+    if (msg.y !== undefined) {
+      resolved.y = msg.y;
+    }
+    else {
+      resolved.y = 0
+    }
+
+    if (msg.width !== undefined) {
+      resolved.width = msg.width;
+    }
+    else {
+      resolved.width = 0
+    }
+
+    if (msg.height !== undefined) {
+      resolved.height = msg.height;
+    }
+    else {
+      resolved.height = 0
     }
 
     return resolved;

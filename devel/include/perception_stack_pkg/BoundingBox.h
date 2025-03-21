@@ -29,7 +29,12 @@ struct BoundingBox_
     , x2(0)
     , y2(0)
     , confidence(0.0)
-    , class_name()  {
+    , class_name()
+    , class_id(0)
+    , x(0)
+    , y(0)
+    , width(0)
+    , height(0)  {
     }
   BoundingBox_(const ContainerAllocator& _alloc)
     : x1(0)
@@ -37,7 +42,12 @@ struct BoundingBox_
     , x2(0)
     , y2(0)
     , confidence(0.0)
-    , class_name(_alloc)  {
+    , class_name(_alloc)
+    , class_id(0)
+    , x(0)
+    , y(0)
+    , width(0)
+    , height(0)  {
   (void)_alloc;
     }
 
@@ -60,6 +70,21 @@ struct BoundingBox_
 
    typedef std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> _class_name_type;
   _class_name_type class_name;
+
+   typedef int32_t _class_id_type;
+  _class_id_type class_id;
+
+   typedef int32_t _x_type;
+  _x_type x;
+
+   typedef int32_t _y_type;
+  _y_type y;
+
+   typedef int32_t _width_type;
+  _width_type width;
+
+   typedef int32_t _height_type;
+  _height_type height;
 
 
 
@@ -95,7 +120,12 @@ bool operator==(const ::perception_stack_pkg::BoundingBox_<ContainerAllocator1> 
     lhs.x2 == rhs.x2 &&
     lhs.y2 == rhs.y2 &&
     lhs.confidence == rhs.confidence &&
-    lhs.class_name == rhs.class_name;
+    lhs.class_name == rhs.class_name &&
+    lhs.class_id == rhs.class_id &&
+    lhs.x == rhs.x &&
+    lhs.y == rhs.y &&
+    lhs.width == rhs.width &&
+    lhs.height == rhs.height;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -152,12 +182,12 @@ struct MD5Sum< ::perception_stack_pkg::BoundingBox_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "2ee59cb565bd5608d90942e073e828a0";
+    return "f3990488dc83063dd45210280cc12f22";
   }
 
   static const char* value(const ::perception_stack_pkg::BoundingBox_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x2ee59cb565bd5608ULL;
-  static const uint64_t static_value2 = 0xd90942e073e828a0ULL;
+  static const uint64_t static_value1 = 0xf3990488dc83063dULL;
+  static const uint64_t static_value2 = 0xd45210280cc12f22ULL;
 };
 
 template<class ContainerAllocator>
@@ -182,6 +212,11 @@ struct Definition< ::perception_stack_pkg::BoundingBox_<ContainerAllocator> >
 "int32 y2\n"
 "float32 confidence\n"
 "string class_name\n"
+"int32 class_id\n"
+"int32 x\n"
+"int32 y\n"
+"int32 width\n"
+"int32 height\n"
 "\n"
 ;
   }
@@ -207,6 +242,11 @@ namespace serialization
       stream.next(m.y2);
       stream.next(m.confidence);
       stream.next(m.class_name);
+      stream.next(m.class_id);
+      stream.next(m.x);
+      stream.next(m.y);
+      stream.next(m.width);
+      stream.next(m.height);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -237,6 +277,16 @@ struct Printer< ::perception_stack_pkg::BoundingBox_<ContainerAllocator> >
     Printer<float>::stream(s, indent + "  ", v.confidence);
     s << indent << "class_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.class_name);
+    s << indent << "class_id: ";
+    Printer<int32_t>::stream(s, indent + "  ", v.class_id);
+    s << indent << "x: ";
+    Printer<int32_t>::stream(s, indent + "  ", v.x);
+    s << indent << "y: ";
+    Printer<int32_t>::stream(s, indent + "  ", v.y);
+    s << indent << "width: ";
+    Printer<int32_t>::stream(s, indent + "  ", v.width);
+    s << indent << "height: ";
+    Printer<int32_t>::stream(s, indent + "  ", v.height);
   }
 };
 

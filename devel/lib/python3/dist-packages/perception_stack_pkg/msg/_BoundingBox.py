@@ -8,7 +8,7 @@ import struct
 
 
 class BoundingBox(genpy.Message):
-  _md5sum = "2ee59cb565bd5608d90942e073e828a0"
+  _md5sum = "f3990488dc83063dd45210280cc12f22"
   _type = "perception_stack_pkg/BoundingBox"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int32 x1
@@ -17,10 +17,15 @@ int32 x2
 int32 y2
 float32 confidence
 string class_name
+int32 class_id
+int32 x
+int32 y
+int32 width
+int32 height
 
 """
-  __slots__ = ['x1','y1','x2','y2','confidence','class_name']
-  _slot_types = ['int32','int32','int32','int32','float32','string']
+  __slots__ = ['x1','y1','x2','y2','confidence','class_name','class_id','x','y','width','height']
+  _slot_types = ['int32','int32','int32','int32','float32','string','int32','int32','int32','int32','int32']
 
   def __init__(self, *args, **kwds):
     """
@@ -30,7 +35,7 @@ string class_name
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       x1,y1,x2,y2,confidence,class_name
+       x1,y1,x2,y2,confidence,class_name,class_id,x,y,width,height
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -51,6 +56,16 @@ string class_name
         self.confidence = 0.
       if self.class_name is None:
         self.class_name = ''
+      if self.class_id is None:
+        self.class_id = 0
+      if self.x is None:
+        self.x = 0
+      if self.y is None:
+        self.y = 0
+      if self.width is None:
+        self.width = 0
+      if self.height is None:
+        self.height = 0
     else:
       self.x1 = 0
       self.y1 = 0
@@ -58,6 +73,11 @@ string class_name
       self.y2 = 0
       self.confidence = 0.
       self.class_name = ''
+      self.class_id = 0
+      self.x = 0
+      self.y = 0
+      self.width = 0
+      self.height = 0
 
   def _get_types(self):
     """
@@ -79,6 +99,8 @@ string class_name
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
+      _x = self
+      buff.write(_get_struct_5i().pack(_x.class_id, _x.x, _x.y, _x.width, _x.height))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -104,6 +126,10 @@ string class_name
         self.class_name = str[start:end].decode('utf-8', 'rosmsg')
       else:
         self.class_name = str[start:end]
+      _x = self
+      start = end
+      end += 20
+      (_x.class_id, _x.x, _x.y, _x.width, _x.height,) = _get_struct_5i().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -124,6 +150,8 @@ string class_name
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
+      _x = self
+      buff.write(_get_struct_5i().pack(_x.class_id, _x.x, _x.y, _x.width, _x.height))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -150,6 +178,10 @@ string class_name
         self.class_name = str[start:end].decode('utf-8', 'rosmsg')
       else:
         self.class_name = str[start:end]
+      _x = self
+      start = end
+      end += 20
+      (_x.class_id, _x.x, _x.y, _x.width, _x.height,) = _get_struct_5i().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -164,3 +196,9 @@ def _get_struct_4if():
     if _struct_4if is None:
         _struct_4if = struct.Struct("<4if")
     return _struct_4if
+_struct_5i = None
+def _get_struct_5i():
+    global _struct_5i
+    if _struct_5i is None:
+        _struct_5i = struct.Struct("<5i")
+    return _struct_5i

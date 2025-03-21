@@ -36,7 +36,32 @@
     :reader class_name
     :initarg :class_name
     :type cl:string
-    :initform ""))
+    :initform "")
+   (class_id
+    :reader class_id
+    :initarg :class_id
+    :type cl:integer
+    :initform 0)
+   (x
+    :reader x
+    :initarg :x
+    :type cl:integer
+    :initform 0)
+   (y
+    :reader y
+    :initarg :y
+    :type cl:integer
+    :initform 0)
+   (width
+    :reader width
+    :initarg :width
+    :type cl:integer
+    :initform 0)
+   (height
+    :reader height
+    :initarg :height
+    :type cl:integer
+    :initform 0))
 )
 
 (cl:defclass BoundingBox (<BoundingBox>)
@@ -76,6 +101,31 @@
 (cl:defmethod class_name-val ((m <BoundingBox>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader perception_stack_pkg-msg:class_name-val is deprecated.  Use perception_stack_pkg-msg:class_name instead.")
   (class_name m))
+
+(cl:ensure-generic-function 'class_id-val :lambda-list '(m))
+(cl:defmethod class_id-val ((m <BoundingBox>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader perception_stack_pkg-msg:class_id-val is deprecated.  Use perception_stack_pkg-msg:class_id instead.")
+  (class_id m))
+
+(cl:ensure-generic-function 'x-val :lambda-list '(m))
+(cl:defmethod x-val ((m <BoundingBox>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader perception_stack_pkg-msg:x-val is deprecated.  Use perception_stack_pkg-msg:x instead.")
+  (x m))
+
+(cl:ensure-generic-function 'y-val :lambda-list '(m))
+(cl:defmethod y-val ((m <BoundingBox>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader perception_stack_pkg-msg:y-val is deprecated.  Use perception_stack_pkg-msg:y instead.")
+  (y m))
+
+(cl:ensure-generic-function 'width-val :lambda-list '(m))
+(cl:defmethod width-val ((m <BoundingBox>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader perception_stack_pkg-msg:width-val is deprecated.  Use perception_stack_pkg-msg:width instead.")
+  (width m))
+
+(cl:ensure-generic-function 'height-val :lambda-list '(m))
+(cl:defmethod height-val ((m <BoundingBox>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader perception_stack_pkg-msg:height-val is deprecated.  Use perception_stack_pkg-msg:height instead.")
+  (height m))
 (cl:defmethod roslisp-msg-protocol:serialize ((msg <BoundingBox>) ostream)
   "Serializes a message object of type '<BoundingBox>"
   (cl:let* ((signed (cl:slot-value msg 'x1)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 4294967296) signed)))
@@ -113,6 +163,36 @@
     (cl:write-byte (cl:ldb (cl:byte 8 16) __ros_str_len) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 24) __ros_str_len) ostream))
   (cl:map cl:nil #'(cl:lambda (c) (cl:write-byte (cl:char-code c) ostream)) (cl:slot-value msg 'class_name))
+  (cl:let* ((signed (cl:slot-value msg 'class_id)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 4294967296) signed)))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
+    )
+  (cl:let* ((signed (cl:slot-value msg 'x)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 4294967296) signed)))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
+    )
+  (cl:let* ((signed (cl:slot-value msg 'y)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 4294967296) signed)))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
+    )
+  (cl:let* ((signed (cl:slot-value msg 'width)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 4294967296) signed)))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
+    )
+  (cl:let* ((signed (cl:slot-value msg 'height)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 4294967296) signed)))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
+    )
 )
 (cl:defmethod roslisp-msg-protocol:deserialize ((msg <BoundingBox>) istream)
   "Deserializes a message object of type '<BoundingBox>"
@@ -154,6 +234,36 @@
       (cl:setf (cl:slot-value msg 'class_name) (cl:make-string __ros_str_len))
       (cl:dotimes (__ros_str_idx __ros_str_len msg)
         (cl:setf (cl:char (cl:slot-value msg 'class_name) __ros_str_idx) (cl:code-char (cl:read-byte istream)))))
+    (cl:let ((unsigned 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:slot-value msg 'class_id) (cl:if (cl:< unsigned 2147483648) unsigned (cl:- unsigned 4294967296))))
+    (cl:let ((unsigned 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:slot-value msg 'x) (cl:if (cl:< unsigned 2147483648) unsigned (cl:- unsigned 4294967296))))
+    (cl:let ((unsigned 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:slot-value msg 'y) (cl:if (cl:< unsigned 2147483648) unsigned (cl:- unsigned 4294967296))))
+    (cl:let ((unsigned 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:slot-value msg 'width) (cl:if (cl:< unsigned 2147483648) unsigned (cl:- unsigned 4294967296))))
+    (cl:let ((unsigned 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) unsigned) (cl:read-byte istream))
+      (cl:setf (cl:slot-value msg 'height) (cl:if (cl:< unsigned 2147483648) unsigned (cl:- unsigned 4294967296))))
   msg
 )
 (cl:defmethod roslisp-msg-protocol:ros-datatype ((msg (cl:eql '<BoundingBox>)))
@@ -164,16 +274,16 @@
   "perception_stack_pkg/BoundingBox")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<BoundingBox>)))
   "Returns md5sum for a message object of type '<BoundingBox>"
-  "2ee59cb565bd5608d90942e073e828a0")
+  "f3990488dc83063dd45210280cc12f22")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'BoundingBox)))
   "Returns md5sum for a message object of type 'BoundingBox"
-  "2ee59cb565bd5608d90942e073e828a0")
+  "f3990488dc83063dd45210280cc12f22")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<BoundingBox>)))
   "Returns full string definition for message of type '<BoundingBox>"
-  (cl:format cl:nil "int32 x1~%int32 y1~%int32 x2~%int32 y2~%float32 confidence~%string class_name~%~%~%~%"))
+  (cl:format cl:nil "int32 x1~%int32 y1~%int32 x2~%int32 y2~%float32 confidence~%string class_name~%int32 class_id~%int32 x~%int32 y~%int32 width~%int32 height~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'BoundingBox)))
   "Returns full string definition for message of type 'BoundingBox"
-  (cl:format cl:nil "int32 x1~%int32 y1~%int32 x2~%int32 y2~%float32 confidence~%string class_name~%~%~%~%"))
+  (cl:format cl:nil "int32 x1~%int32 y1~%int32 x2~%int32 y2~%float32 confidence~%string class_name~%int32 class_id~%int32 x~%int32 y~%int32 width~%int32 height~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <BoundingBox>))
   (cl:+ 0
      4
@@ -182,6 +292,11 @@
      4
      4
      4 (cl:length (cl:slot-value msg 'class_name))
+     4
+     4
+     4
+     4
+     4
 ))
 (cl:defmethod roslisp-msg-protocol:ros-message-to-list ((msg <BoundingBox>))
   "Converts a ROS message object to a list"
@@ -192,4 +307,9 @@
     (cl:cons ':y2 (y2 msg))
     (cl:cons ':confidence (confidence msg))
     (cl:cons ':class_name (class_name msg))
+    (cl:cons ':class_id (class_id msg))
+    (cl:cons ':x (x msg))
+    (cl:cons ':y (y msg))
+    (cl:cons ':width (width msg))
+    (cl:cons ':height (height msg))
 ))

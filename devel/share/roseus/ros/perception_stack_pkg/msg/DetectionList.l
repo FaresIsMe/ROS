@@ -16,16 +16,18 @@
 
 (defclass perception_stack_pkg::DetectionList
   :super ros::object
-  :slots (_header _detections ))
+  :slots (_header _frame_id _detections ))
 
 (defmethod perception_stack_pkg::DetectionList
   (:init
    (&key
     ((:header __header) (instance std_msgs::Header :init))
+    ((:frame_id __frame_id) 0)
     ((:detections __detections) ())
     )
    (send-super :init)
    (setq _header __header)
+   (setq _frame_id (round __frame_id))
    (setq _detections __detections)
    self)
   (:header
@@ -35,6 +37,9 @@
      (progn
        (if __header (setq _header (car __header)))
        _header)))
+  (:frame_id
+   (&optional __frame_id)
+   (if __frame_id (setq _frame_id __frame_id)) _frame_id)
   (:detections
    (&rest __detections)
    (if (keywordp (car __detections))
@@ -47,6 +52,8 @@
    (+
     ;; std_msgs/Header _header
     (send _header :serialization-length)
+    ;; int32 _frame_id
+    4
     ;; perception_stack_pkg/BoundingBox[] _detections
     (apply #'+ (send-all _detections :serialization-length)) 4
     ))
@@ -56,6 +63,8 @@
               (make-string-output-stream (send self :serialization-length)))))
      ;; std_msgs/Header _header
        (send _header :serialize s)
+     ;; int32 _frame_id
+       (write-long _frame_id s)
      ;; perception_stack_pkg/BoundingBox[] _detections
      (write-long (length _detections) s)
      (dolist (elem _detections)
@@ -67,6 +76,8 @@
    (buf &optional (ptr- 0))
    ;; std_msgs/Header _header
      (send _header :deserialize buf ptr-) (incf ptr- (send _header :serialization-length))
+   ;; int32 _frame_id
+     (setq _frame_id (sys::peek buf ptr- :integer)) (incf ptr- 4)
    ;; perception_stack_pkg/BoundingBox[] _detections
    (let (n)
      (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4)
@@ -78,10 +89,11 @@
    self)
   )
 
-(setf (get perception_stack_pkg::DetectionList :md5sum-) "0c20dfffbd42980d9aac4e331ce27fd6")
+(setf (get perception_stack_pkg::DetectionList :md5sum-) "5f7c56c637c85f5556d0300fcb83a605")
 (setf (get perception_stack_pkg::DetectionList :datatype-) "perception_stack_pkg/DetectionList")
 (setf (get perception_stack_pkg::DetectionList :definition-)
       "Header header
+int32 frame_id
 BoundingBox[] detections
 ================================================================================
 MSG: std_msgs/Header
@@ -107,12 +119,17 @@ int32 x2
 int32 y2
 float32 confidence
 string class_name
+int32 class_id
+int32 x
+int32 y
+int32 width
+int32 height
 
 
 ")
 
 
 
-(provide :perception_stack_pkg/DetectionList "0c20dfffbd42980d9aac4e331ce27fd6")
+(provide :perception_stack_pkg/DetectionList "5f7c56c637c85f5556d0300fcb83a605")
 
 

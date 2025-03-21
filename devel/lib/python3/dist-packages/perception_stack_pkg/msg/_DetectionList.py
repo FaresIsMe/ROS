@@ -10,10 +10,11 @@ import perception_stack_pkg.msg
 import std_msgs.msg
 
 class DetectionList(genpy.Message):
-  _md5sum = "0c20dfffbd42980d9aac4e331ce27fd6"
+  _md5sum = "5f7c56c637c85f5556d0300fcb83a605"
   _type = "perception_stack_pkg/DetectionList"
   _has_header = True  # flag to mark the presence of a Header object
   _full_text = """Header header
+int32 frame_id
 BoundingBox[] detections
 ================================================================================
 MSG: std_msgs/Header
@@ -39,10 +40,15 @@ int32 x2
 int32 y2
 float32 confidence
 string class_name
+int32 class_id
+int32 x
+int32 y
+int32 width
+int32 height
 
 """
-  __slots__ = ['header','detections']
-  _slot_types = ['std_msgs/Header','perception_stack_pkg/BoundingBox[]']
+  __slots__ = ['header','frame_id','detections']
+  _slot_types = ['std_msgs/Header','int32','perception_stack_pkg/BoundingBox[]']
 
   def __init__(self, *args, **kwds):
     """
@@ -52,7 +58,7 @@ string class_name
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,detections
+       header,frame_id,detections
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -63,10 +69,13 @@ string class_name
       # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
+      if self.frame_id is None:
+        self.frame_id = 0
       if self.detections is None:
         self.detections = []
     else:
       self.header = std_msgs.msg.Header()
+      self.frame_id = 0
       self.detections = []
 
   def _get_types(self):
@@ -89,6 +98,8 @@ string class_name
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
+      _x = self.frame_id
+      buff.write(_get_struct_i().pack(_x))
       length = len(self.detections)
       buff.write(_struct_I.pack(length))
       for val1 in self.detections:
@@ -100,6 +111,8 @@ string class_name
           _x = _x.encode('utf-8')
           length = len(_x)
         buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
+        _x = val1
+        buff.write(_get_struct_5i().pack(_x.class_id, _x.x, _x.y, _x.width, _x.height))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -131,6 +144,9 @@ string class_name
         self.header.frame_id = str[start:end]
       start = end
       end += 4
+      (self.frame_id,) = _get_struct_i().unpack(str[start:end])
+      start = end
+      end += 4
       (length,) = _struct_I.unpack(str[start:end])
       self.detections = []
       for i in range(0, length):
@@ -148,6 +164,10 @@ string class_name
           val1.class_name = str[start:end].decode('utf-8', 'rosmsg')
         else:
           val1.class_name = str[start:end]
+        _x = val1
+        start = end
+        end += 20
+        (_x.class_id, _x.x, _x.y, _x.width, _x.height,) = _get_struct_5i().unpack(str[start:end])
         self.detections.append(val1)
       return self
     except struct.error as e:
@@ -169,6 +189,8 @@ string class_name
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
+      _x = self.frame_id
+      buff.write(_get_struct_i().pack(_x))
       length = len(self.detections)
       buff.write(_struct_I.pack(length))
       for val1 in self.detections:
@@ -180,6 +202,8 @@ string class_name
           _x = _x.encode('utf-8')
           length = len(_x)
         buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
+        _x = val1
+        buff.write(_get_struct_5i().pack(_x.class_id, _x.x, _x.y, _x.width, _x.height))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -212,6 +236,9 @@ string class_name
         self.header.frame_id = str[start:end]
       start = end
       end += 4
+      (self.frame_id,) = _get_struct_i().unpack(str[start:end])
+      start = end
+      end += 4
       (length,) = _struct_I.unpack(str[start:end])
       self.detections = []
       for i in range(0, length):
@@ -229,6 +256,10 @@ string class_name
           val1.class_name = str[start:end].decode('utf-8', 'rosmsg')
         else:
           val1.class_name = str[start:end]
+        _x = val1
+        start = end
+        end += 20
+        (_x.class_id, _x.x, _x.y, _x.width, _x.height,) = _get_struct_5i().unpack(str[start:end])
         self.detections.append(val1)
       return self
     except struct.error as e:
@@ -250,3 +281,15 @@ def _get_struct_4if():
     if _struct_4if is None:
         _struct_4if = struct.Struct("<4if")
     return _struct_4if
+_struct_5i = None
+def _get_struct_5i():
+    global _struct_5i
+    if _struct_5i is None:
+        _struct_5i = struct.Struct("<5i")
+    return _struct_5i
+_struct_i = None
+def _get_struct_i():
+    global _struct_i
+    if _struct_i is None:
+        _struct_i = struct.Struct("<i")
+    return _struct_i

@@ -21,6 +21,7 @@ class DetectionList {
     if (initObj === null) {
       // initObj === null is a special case for deserialization where we don't initialize fields
       this.header = null;
+      this.frame_id = null;
       this.detections = null;
     }
     else {
@@ -29,6 +30,12 @@ class DetectionList {
       }
       else {
         this.header = new std_msgs.msg.Header();
+      }
+      if (initObj.hasOwnProperty('frame_id')) {
+        this.frame_id = initObj.frame_id
+      }
+      else {
+        this.frame_id = 0;
       }
       if (initObj.hasOwnProperty('detections')) {
         this.detections = initObj.detections
@@ -43,6 +50,8 @@ class DetectionList {
     // Serializes a message object of type DetectionList
     // Serialize message field [header]
     bufferOffset = std_msgs.msg.Header.serialize(obj.header, buffer, bufferOffset);
+    // Serialize message field [frame_id]
+    bufferOffset = _serializer.int32(obj.frame_id, buffer, bufferOffset);
     // Serialize message field [detections]
     // Serialize the length for message field [detections]
     bufferOffset = _serializer.uint32(obj.detections.length, buffer, bufferOffset);
@@ -58,6 +67,8 @@ class DetectionList {
     let data = new DetectionList(null);
     // Deserialize message field [header]
     data.header = std_msgs.msg.Header.deserialize(buffer, bufferOffset);
+    // Deserialize message field [frame_id]
+    data.frame_id = _deserializer.int32(buffer, bufferOffset);
     // Deserialize message field [detections]
     // Deserialize array length for message field [detections]
     len = _deserializer.uint32(buffer, bufferOffset);
@@ -74,7 +85,7 @@ class DetectionList {
     object.detections.forEach((val) => {
       length += BoundingBox.getMessageSize(val);
     });
-    return length + 4;
+    return length + 8;
   }
 
   static datatype() {
@@ -84,13 +95,14 @@ class DetectionList {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '0c20dfffbd42980d9aac4e331ce27fd6';
+    return '5f7c56c637c85f5556d0300fcb83a605';
   }
 
   static messageDefinition() {
     // Returns full string definition for message
     return `
     Header header
+    int32 frame_id
     BoundingBox[] detections
     ================================================================================
     MSG: std_msgs/Header
@@ -116,6 +128,11 @@ class DetectionList {
     int32 y2
     float32 confidence
     string class_name
+    int32 class_id
+    int32 x
+    int32 y
+    int32 width
+    int32 height
     
     
     `;
@@ -132,6 +149,13 @@ class DetectionList {
     }
     else {
       resolved.header = new std_msgs.msg.Header()
+    }
+
+    if (msg.frame_id !== undefined) {
+      resolved.frame_id = msg.frame_id;
+    }
+    else {
+      resolved.frame_id = 0
     }
 
     if (msg.detections !== undefined) {
